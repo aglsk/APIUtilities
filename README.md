@@ -44,6 +44,39 @@ Resposta:
 
 ---
 
+### 3 API de Perfil Netflix
+
+ Endpoint
+
+GET /api/netflix-profile?nome=SeuNome
+
+ Parâmetro
+
+- `nome` (opcional): Nome do usuário. Se não for passado, será "Convidado".
+
+ Exemplo de uso
+
+https://seu-projeto.vercel.app/api/netflix-profile?nome=Ulysses
+
+ Resposta
+
+```json
+{
+  "id": 1,
+  "nome": "Ulysses",
+  "avatar": "https://loodibee.com/wp-content/uploads/Netflix-avatar-12.png",
+  "cor": "#FFD700"
+}
+```
+
+Obs:
+
+O avatar é fixo no estilo Netflix.
+
+A cor muda com base no nome passado.
+
+---
+
 Como usar
 
 1. Faça o deploy no Vercel conectando ao repositório.
