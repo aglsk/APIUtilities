@@ -20,7 +20,7 @@ GET /meu-ip
 
 ---
 
-2. /gerar-senha
+### 2. /gerar-senha
 
 Gera uma senha aleatória.
 
