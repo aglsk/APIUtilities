@@ -2,20 +2,20 @@ export default function handler(req, res) {
   const nome = req.query.nome || 'Convidado';
 
   const avataresNetflix = [
-    'https://avatars.githubusercontent.com/u/1?v=4',
-    'https://avatars.githubusercontent.com/u/2?v=4',
-    'https://avatars.githubusercontent.com/u/3?v=4',
-    'https://avatars.githubusercontent.com/u/4?v=4',
-    'https://avatars.githubusercontent.com/u/5?v=4',
-    'https://avatars.githubusercontent.com/u/6?v=4',
-    'https://avatars.githubusercontent.com/u/7?v=4',
-    'https://avatars.githubusercontent.com/u/8?v=4',
+    'https://i.imgur.com/1XU8FjG.png',
+    'https://i.imgur.com/zR4I1VW.png',
+    'https://i.imgur.com/AKfC1Fd.png',
+    'https://i.imgur.com/Tf0lRVP.png',
+    'https://i.imgur.com/oo3FzrP.png',
+    'https://i.imgur.com/4x1vR8U.png',
+    'https://i.imgur.com/xEj6Khh.png',
+    'https://i.imgur.com/XUsxZRx.png',
   ];
 
-  // Seleção aleatória de avatar
+  // Avatar aleatório
   const avatar = avataresNetflix[Math.floor(Math.random() * avataresNetflix.length)];
 
-  // Gera cor aleatória fixa baseada no nome
+  // Cor baseada no nome
   const hash = [...nome].reduce((acc, c) => acc + c.charCodeAt(0), 0);
   const cores = ['#FF5733', '#1E90FF', '#32CD32', '#FFD700', '#9B59B6', '#00CED1'];
   const cor = cores[hash % cores.length];
