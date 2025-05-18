@@ -2,6 +2,7 @@
   "version": 2,
   "routes": [
     { "src": "/meu-ip", "dest": "/api/my-ip.js" },
-    { "src": "/gerar-senha", "dest": "/api/generate-password.js" }
+    { "src": "/gerar-senha", "dest": "/api/generate-password.js" },
+    { "src": "/perfis", "dest": "/api/perfis.js" }
   ]
 }
