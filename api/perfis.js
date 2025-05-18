@@ -1,8 +1,19 @@
 export default function handler(req, res) {
   const nome = req.query.nome || 'Convidado';
 
-  // Avatar único por nome
-  const avatar = `https://i.pravatar.cc/150?u=${encodeURIComponent(nome)}`;
+  const avataresNetflix = [
+    'https://avatars.githubusercontent.com/u/1?v=4',
+    'https://avatars.githubusercontent.com/u/2?v=4',
+    'https://avatars.githubusercontent.com/u/3?v=4',
+    'https://avatars.githubusercontent.com/u/4?v=4',
+    'https://avatars.githubusercontent.com/u/5?v=4',
+    'https://avatars.githubusercontent.com/u/6?v=4',
+    'https://avatars.githubusercontent.com/u/7?v=4',
+    'https://avatars.githubusercontent.com/u/8?v=4',
+  ];
+
+  // Seleção aleatória de avatar
+  const avatar = avataresNetflix[Math.floor(Math.random() * avataresNetflix.length)];
 
   // Gera cor aleatória fixa baseada no nome
   const hash = [...nome].reduce((acc, c) => acc + c.charCodeAt(0), 0);
