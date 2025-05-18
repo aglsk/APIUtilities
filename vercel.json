@@ -3,6 +3,7 @@
   "routes": [
     { "src": "/meu-ip", "dest": "/api/my-ip.js" },
     { "src": "/gerar-senha", "dest": "/api/generate-password.js" },
-    { "src": "/perfis", "dest": "/api/perfis.js" }
+    { "src": "/perfis", "dest": "/api/perfis.js" },
+    { "src": "/pixqrcode", "dest": "/api/pixqrcode.js" }
   ]
 }
