@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="API de utilitários com diversos serviços como consulta CNPJ, geração de senhas, QR Code PIX e mais">
-  <title>API Utilitários - Serviços Práticos para Desenvolvedores</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Documentação completa das APIs utilitárias incluindo consulta de IP, geração de senhas, perfis Netflix e QR Code PIX">
+  <title>API Utilitários - Documentação</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
   <style>
     :root {
       --primary-color: #4361ee;
@@ -14,8 +15,11 @@
       --light-color: #f8f9fa;
       --dark-color: #212529;
       --success-color: #4cc9f0;
+      --danger-color: #f72585;
+      --warning-color: #f8961e;
       --border-radius: 8px;
       --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s ease;
     }
     
     * {
@@ -29,7 +33,6 @@
       line-height: 1.6;
       color: var(--dark-color);
       background-color: #f5f7fa;
-      padding: 0;
     }
     
     .container {
@@ -50,6 +53,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      flex-wrap: wrap;
     }
     
     h1 {
@@ -69,6 +73,7 @@
       padding: 0.5rem 1rem;
       border-radius: 20px;
       font-size: 0.9rem;
+      margin-top: 1rem;
     }
     
     .status.online {
@@ -97,95 +102,152 @@
       opacity: 0.8;
     }
     
-    .main-content {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 2rem;
+    .api-section {
+      margin-bottom: 3rem;
     }
     
-    @media (min-width: 768px) {
-      .main-content {
-        grid-template-columns: 1fr 1fr;
-      }
-    }
-    
-    .card {
+    .api-card {
       background-color: white;
       border-radius: var(--border-radius);
       padding: 1.5rem;
       box-shadow: var(--box-shadow);
-      transition: transform 0.3s ease;
+      margin-bottom: 1.5rem;
+      transition: var(--transition);
     }
     
-    .card:hover {
-      transform: translateY(-5px);
+    .api-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
     }
     
-    .card h2 {
+    .api-title {
       color: var(--primary-color);
       margin-bottom: 1rem;
-      font-size: 1.3rem;
+      font-size: 1.5rem;
       display: flex;
       align-items: center;
     }
     
-    .card h2 i {
+    .api-title i {
       margin-right: 10px;
     }
     
-    .endpoint-list {
-      list-style: none;
-    }
-    
-    .endpoint-item {
+    .endpoint {
+      display: flex;
+      align-items: center;
       margin-bottom: 1rem;
-      padding-bottom: 1rem;
-      border-bottom: 1px solid #eee;
+      padding: 0.75rem 1rem;
+      background-color: #f3f4f6;
+      border-radius: var(--border-radius);
+      font-family: 'Courier New', Courier, monospace;
     }
     
-    .endpoint-item:last-child {
-      margin-bottom: 0;
-      padding-bottom: 0;
-      border-bottom: none;
-    }
-    
-    .endpoint-method {
+    .method {
       display: inline-block;
-      padding: 0.25rem 0.5rem;
+      padding: 0.25rem 0.75rem;
       border-radius: 4px;
       font-size: 0.8rem;
       font-weight: bold;
-      margin-right: 0.5rem;
-      background-color: var(--accent-color);
+      margin-right: 1rem;
       color: white;
+      min-width: 60px;
+      text-align: center;
     }
     
-    .endpoint-path {
-      font-family: 'Courier New', Courier, monospace;
-      background-color: #f3f4f6;
-      padding: 0.2rem 0.4rem;
-      border-radius: 4px;
-      color: var(--dark-color);
+    .method.get {
+      background-color: #61affe;
+    }
+    
+    .method.post {
+      background-color: #49cc90;
+    }
+    
+    .path {
       word-break: break-all;
     }
     
-    .endpoint-desc {
-      margin-top: 0.5rem;
-      font-size: 0.9rem;
-      color: #4b5563;
+    .section-title {
+      font-size: 1.8rem;
+      margin: 2rem 0 1rem;
+      color: var(--secondary-color);
+      border-bottom: 2px solid var(--accent-color);
+      padding-bottom: 0.5rem;
     }
     
-    .usage-note {
+    .parameters {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+    }
+    
+    .parameters th, .parameters td {
+      padding: 0.75rem;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+    
+    .parameters th {
+      background-color: #f3f4f6;
+      font-weight: 600;
+    }
+    
+    .parameters tr:hover {
+      background-color: #f9fafb;
+    }
+    
+    .required {
+      color: var(--danger-color);
+      font-weight: bold;
+    }
+    
+    .optional {
+      color: var(--warning-color);
+    }
+    
+    .example {
+      margin: 1.5rem 0;
+    }
+    
+    .example-title {
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+    }
+    
+    .example-title i {
+      margin-right: 8px;
+      color: var(--accent-color);
+    }
+    
+    pre {
+      background-color: #2b2b2b;
+      color: #f8f8f2;
+      padding: 1rem;
+      border-radius: var(--border-radius);
+      overflow-x: auto;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+    
+    .note {
       background-color: #eef2ff;
       border-left: 4px solid var(--primary-color);
       padding: 1rem;
-      margin-top: 2rem;
+      margin: 1rem 0;
       border-radius: 0 var(--border-radius) var(--border-radius) 0;
     }
     
-    .usage-note h3 {
+    .note-title {
+      font-weight: 600;
       margin-bottom: 0.5rem;
       color: var(--primary-color);
+      display: flex;
+      align-items: center;
+    }
+    
+    .note-title i {
+      margin-right: 8px;
     }
     
     footer {
@@ -210,7 +272,7 @@
       color: white;
       margin: 0 10px;
       font-size: 1.2rem;
-      transition: color 0.3s ease;
+      transition: var(--transition);
     }
     
     .social-links a:hover {
@@ -222,6 +284,27 @@
       font-size: 0.9rem;
       opacity: 0.7;
     }
+    
+    @media (max-width: 768px) {
+      .header-content {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      h1 {
+        font-size: 2rem;
+      }
+      
+      .endpoint {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      .method {
+        margin-bottom: 0.5rem;
+        margin-right: 0;
+      }
+    }
   </style>
 </head>
 <body>
@@ -229,7 +312,7 @@
     <div class="container header-content">
       <div>
         <h1>API Utilitários</h1>
-        <p class="tagline">Serviços práticos para desenvolvedores</p>
+        <p class="tagline">Documentação completa dos serviços disponíveis</p>
         <div class="status online">
           <span class="status-dot"></span>
           Online
@@ -239,49 +322,224 @@
   </header>
 
   <main class="container">
-    <div class="main-content">
-      <section class="card">
-        <h2><i class="fas fa-user-shield"></i> Dados e Segurança</h2>
-        <ul class="endpoint-list">
-          <li class="endpoint-item">
-            <span class="endpoint-method">GET</span>
-            <span class="endpoint-path">/api/perfis</span>
-            <p class="endpoint-desc">Retorna perfis de usuários com informações básicas</p>
-          </li>
-          <li class="endpoint-item">
-            <span class="endpoint-method">GET</span>
-            <span class="endpoint-path">/api/generate-password?length=12&special=true</span>
-            <p class="endpoint-desc">Gera senhas seguras com opções de personalização</p>
-          </li>
-          <li class="endpoint-item">
-            <span class="endpoint-method">GET</span>
-            <span class="endpoint-path">/api/my-ip</span>
-            <p class="endpoint-desc">Retorna seu endereço IP público e informações geolocalização</p>
-          </li>
-        </ul>
-      </section>
+    <section class="api-section">
+      <h2 class="section-title"><i class="fas fa-network-wired"></i> Serviços de Rede</h2>
+      
+      <div class="api-card">
+        <h3 class="api-title"><i class="fas fa-address-card"></i> Consulta de IP</h3>
+        <div class="endpoint">
+          <span class="method get">GET</span>
+          <span class="path">/meu-ip</span>
+        </div>
+        <p>Retorna o endereço IP público do cliente que fez a requisição.</p>
+        
+        <div class="example">
+          <div class="example-title"><i class="fas fa-code"></i> Exemplo de resposta</div>
+          <pre><code class="language-json">{
+  "ip": "123.45.67.89",
+  "data_hora": "2023-06-15T14:30:00Z"
+}</code></pre>
+        </div>
+      </div>
+    </section>
 
-      <section class="card">
-        <h2><i class="fas fa-briefcase"></i> Documentos e Pagamentos</h2>
-        <ul class="endpoint-list">
-          <li class="endpoint-item">
-            <span class="endpoint-method">GET</span>
-            <span class="endpoint-path">/api/cnpj?cnpj=00000000000191</span>
-            <p class="endpoint-desc">Consulta de CNPJ com dados da Receita Federal</p>
-          </li>
-          <li class="endpoint-item">
-            <span class="endpoint-method">GET</span>
-            <span class="endpoint-path">/api/pix?chave=12345678900&valor=100.00</span>
-            <p class="endpoint-desc">Geração de QR Code PIX para pagamentos</p>
-          </li>
-        </ul>
-      </section>
-    </div>
+    <section class="api-section">
+      <h2 class="section-title"><i class="fas fa-lock"></i> Segurança</h2>
+      
+      <div class="api-card">
+        <h3 class="api-title"><i class="fas fa-key"></i> Gerador de Senhas</h3>
+        <div class="endpoint">
+          <span class="method get">GET</span>
+          <span class="path">/gerar-senha?tamanho=12&caracteres=todos</span>
+        </div>
+        <p>Gera senhas aleatórias seguras com opções de personalização.</p>
+        
+        <table class="parameters">
+          <thead>
+            <tr>
+              <th>Parâmetro</th>
+              <th>Tipo</th>
+              <th>Obrigatório</th>
+              <th>Descrição</th>
+              <th>Valores</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>tamanho</td>
+              <td>integer</td>
+              <td class="optional">Opcional</td>
+              <td>Tamanho da senha</td>
+              <td>Padrão: 12 (min: 6, max: 32)</td>
+            </tr>
+            <tr>
+              <td>caracteres</td>
+              <td>string</td>
+              <td class="optional">Opcional</td>
+              <td>Tipo de caracteres a incluir</td>
+              <td>letras, numeros, simbolos, todos (padrão: todos)</td>
+            </tr>
+          </tbody>
+        </table>
+        
+        <div class="example">
+          <div class="example-title"><i class="fas fa-code"></i> Exemplo de requisição</div>
+          <pre><code class="language-http">GET /gerar-senha?tamanho=16&caracteres=letras,numeros</code></pre>
+        </div>
+        
+        <div class="example">
+          <div class="example-title"><i class="fas fa-code"></i> Exemplo de resposta</div>
+          <pre><code class="language-json">{
+  "senha": "AbcDefGhIjKlMnOp",
+  "tamanho": 16,
+  "caracteres_utilizados": ["letras", "numeros"],
+  "forca": "forte"
+}</code></pre>
+        </div>
+      </div>
+    </section>
 
-    <div class="usage-note">
-      <h3>Como usar a API</h3>
-      <p>Todos os endpoints respondem a requisições GET. Para endpoints que requerem parâmetros, inclua-os na query string da URL. As respostas são retornadas no formato JSON.</p>
-    </div>
+    <section class="api-section">
+      <h2 class="section-title"><i class="fas fa-tv"></i> Entretenimento</h2>
+      
+      <div class="api-card">
+        <h3 class="api-title"><i class="fas fa-film"></i> Perfil Netflix</h3>
+        <div class="endpoint">
+          <span class="method get">GET</span>
+          <span class="path">/api/netflix-profile?nome=Convidado</span>
+        </div>
+        <p>Gera um perfil fictício no estilo Netflix com avatar e cor personalizada.</p>
+        
+        <table class="parameters">
+          <thead>
+            <tr>
+              <th>Parâmetro</th>
+              <th>Tipo</th>
+              <th>Obrigatório</th>
+              <th>Descrição</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>nome</td>
+              <td>string</td>
+              <td class="optional">Opcional</td>
+              <td>Nome do perfil (padrão: "Convidado")</td>
+            </tr>
+          </tbody>
+        </table>
+        
+        <div class="example">
+          <div class="example-title"><i class="fas fa-code"></i> Exemplo de resposta</div>
+          <pre><code class="language-json">{
+  "id": 1,
+  "nome": "Ulysses",
+  "avatar": "https://loodibee.com/wp-content/uploads/Netflix-avatar-12.png",
+  "cor": "#FFD700",
+  "data_criacao": "2023-06-15T14:30:00Z"
+}</code></pre>
+        </div>
+        
+        <div class="note">
+          <div class="note-title"><i class="fas fa-info-circle"></i> Observação</div>
+          <p>O avatar é fixo no estilo Netflix. A cor do perfil é gerada automaticamente com base no nome fornecido.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="api-section">
+      <h2 class="section-title"><i class="fas fa-qrcode"></i> Pagamentos</h2>
+      
+      <div class="api-card">
+        <h3 class="api-title"><i class="fas fa-money-bill-wave"></i> Gerador de QR Code PIX</h3>
+        <div class="endpoint">
+          <span class="method post">POST</span>
+          <span class="path">/api/pix</span>
+        </div>
+        <p>Gera um QR Code PIX com payload e imagem em base64 para pagamentos instantâneos.</p>
+        
+        <table class="parameters">
+          <thead>
+            <tr>
+              <th>Parâmetro</th>
+              <th>Tipo</th>
+              <th>Obrigatório</th>
+              <th>Descrição</th>
+              <th>Limite</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>chave</td>
+              <td>string</td>
+              <td class="required">Sim</td>
+              <td>Chave Pix (CPF, CNPJ, telefone, e-mail ou aleatória)</td>
+              <td>Até 140 caracteres</td>
+            </tr>
+            <tr>
+              <td>nome</td>
+              <td>string</td>
+              <td class="required">Sim</td>
+              <td>Nome do recebedor</td>
+              <td>Até 25 caracteres</td>
+            </tr>
+            <tr>
+              <td>cidade</td>
+              <td>string</td>
+              <td class="required">Sim</td>
+              <td>Cidade do recebedor</td>
+              <td>Até 15 caracteres</td>
+            </tr>
+            <tr>
+              <td>valor</td>
+              <td>string</td>
+              <td class="required">Sim</td>
+              <td>Valor da transação (usar ponto como separador decimal)</td>
+              <td>Decimal positivo</td>
+            </tr>
+            <tr>
+              <td>mensagem</td>
+              <td>string</td>
+              <td class="optional">Não</td>
+              <td>Mensagem adicional no QR Code</td>
+              <td>Até 50 caracteres</td>
+            </tr>
+          </tbody>
+        </table>
+        
+        <div class="example">
+          <div class="example-title"><i class="fas fa-code"></i> Exemplo de requisição</div>
+          <pre><code class="language-json">{
+  "chave": "16seuchave@pix.com",
+  "nome": "Nickolas",
+  "cidade": "BRASILIA",
+  "valor": "44.50",
+  "mensagem": "Pagamento"
+}</code></pre>
+        </div>
+        
+        <div class="example">
+          <div class="example-title"><i class="fas fa-code"></i> Exemplo de resposta</div>
+          <pre><code class="language-json">{
+  "status": "success",
+  "message": "QR Code gerado com sucesso",
+  "payload": "00020101021226360014br.gov.bcb.pix011416seuchave@pix.com5204000053039865445.005802BR598Nickolas608BRASILIA62130503Pagamento63047781",
+  "qrcode": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMQAAADECAYAAADApo5rAAAA...",
+  "timestamp": "2023-06-15T14:30:00Z"
+}</code></pre>
+        </div>
+        
+        <div class="note">
+          <div class="note-title"><i class="fas fa-lightbulb"></i> Como usar</div>
+          <ol>
+            <li>Faça uma requisição POST para o endpoint /api/pix com os dados do pagamento</li>
+            <li>A API retornará o payload (texto) e a imagem do QR Code em base64</li>
+            <li>Exiba a imagem no navegador com a tag &lt;img&gt; usando o valor de qrcode</li>
+            <li>Para pagamentos, o usuário pode escanear o QR Code com qualquer app de banco</li>
+          </ol>
+        </div>
+      </div>
+    </section>
   </main>
 
   <footer>
@@ -295,5 +553,8 @@
       <p class="copyright">© 2023 API Utilitários. Todos os direitos reservados.</p>
     </div>
   </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
 </body>
-  </html>
+</html>
