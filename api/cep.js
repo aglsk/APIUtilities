@@ -1,17 +1,28 @@
-app.get('/cep/:cep', async (req, res) => {
-  const cep = req.params.cep.replace(/\D/g, '');
-  if (!cep) return res.status(400).json({ erro: 'CEP não informado' });
+const express = require('express');
+const axios = require('axios');
+const app = express();
+
+app.get('/cep', async (req, res) => {
+  const cep = req.query.cep;
+
+  if (!cep) {
+    return res.status(400).json({ error: 'CEP não informado' });
+  }
 
   try {
-    const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
-    const data = await response.json();
+    const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
 
-    if (data.erro) {
-      return res.status(404).json({ erro: 'CEP não encontrado' });
+    if (response.data.erro) {
+      return res.status(404).json({ error: 'CEP não encontrado' });
     }
 
-    res.json(data);
-  } catch (err) {
-    res.status(500).json({ erro: 'Erro ao consultar o CEP' });
+    res.json(response.data);
+  } catch (error) {
+    res.status(500).json({ error: 'Erro ao consultar o CEP' });
   }
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`API rodando na porta ${PORT}`);
 });
