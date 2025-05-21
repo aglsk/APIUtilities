@@ -451,94 +451,96 @@
       <h2 class="section-title"><i class="fas fa-qrcode"></i> Pagamentos</h2>
       
       <div class="api-card">
-        <h3 class="api-title"><i class="fas fa-money-bill-wave"></i> Gerador de QR Code PIX</h3>
-        <div class="endpoint">
-          <span class="method post">POST</span>
-          <span class="path">/api/pix</span>
-        </div>
-        <p>Gera um QR Code PIX com payload e imagem em base64 para pagamentos instantâneos.</p>
-        
-        <table class="parameters">
-          <thead>
-            <tr>
-              <th>Parâmetro</th>
-              <th>Tipo</th>
-              <th>Obrigatório</th>
-              <th>Descrição</th>
-              <th>Limite</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>chave</td>
-              <td>string</td>
-              <td class="required">Sim</td>
-              <td>Chave Pix (CPF, CNPJ, telefone, e-mail ou aleatória)</td>
-              <td>Até 140 caracteres</td>
-            </tr>
-            <tr>
-              <td>nome</td>
-              <td>string</td>
-              <td class="required">Sim</td>
-              <td>Nome do recebedor</td>
-              <td>Até 25 caracteres</td>
-            </tr>
-            <tr>
-              <td>cidade</td>
-              <td>string</td>
-              <td class="required">Sim</td>
-              <td>Cidade do recebedor</td>
-              <td>Até 15 caracteres</td>
-            </tr>
-            <tr>
-              <td>valor</td>
-              <td>string</td>
-              <td class="required">Sim</td>
-              <td>Valor da transação (usar ponto como separador decimal)</td>
-              <td>Decimal positivo</td>
-            </tr>
-            <tr>
-              <td>mensagem</td>
-              <td>string</td>
-              <td class="optional">Não</td>
-              <td>Mensagem adicional no QR Code</td>
-              <td>Até 50 caracteres</td>
-            </tr>
-          </tbody>
-        </table>
-        
-        <div class="example">
-          <div class="example-title"><i class="fas fa-code"></i> Exemplo de requisição</div>
-          <pre><code class="language-json">{
+  <h3 class="api-title"><i class="fas fa-money-bill-wave"></i> Gerador de QR Code PIX</h3>
+
+  <div class="endpoint">
+    <span class="method post">POST</span>
+    <span class="path">/api/pix</span>
+  </div>
+
+  <p>Gera um QR Code PIX com payload e imagem em base64 para pagamentos instantâneos.</p>
+
+  <table class="parameters">
+    <thead>
+      <tr>
+        <th>Parâmetro</th>
+        <th>Tipo</th>
+        <th>Obrigatório</th>
+        <th>Descrição</th>
+        <th>Limite</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>chave</td>
+        <td>string</td>
+        <td class="required">Sim</td>
+        <td>Chave Pix (CPF, CNPJ, telefone, e-mail ou aleatória)</td>
+        <td>Até 140 caracteres</td>
+      </tr>
+      <tr>
+        <td>nome</td>
+        <td>string</td>
+        <td class="required">Sim</td>
+        <td>Nome do recebedor</td>
+        <td>Até 25 caracteres</td>
+      </tr>
+      <tr>
+        <td>cidade</td>
+        <td>string</td>
+        <td class="required">Sim</td>
+        <td>Cidade do recebedor</td>
+        <td>Até 15 caracteres</td>
+      </tr>
+      <tr>
+        <td>valor</td>
+        <td>string</td>
+        <td class="required">Sim</td>
+        <td>Valor da transação (usar ponto como separador decimal)</td>
+        <td>Decimal positivo</td>
+      </tr>
+      <tr>
+        <td>mensagem</td>
+        <td>string</td>
+        <td class="optional">Não</td>
+        <td>Mensagem adicional no QR Code</td>
+        <td>Até 50 caracteres</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="example">
+    <div class="example-title"><i class="fas fa-code"></i> Exemplo de requisição</div>
+    <pre><code class="language-json">{
   "chave": "16seuchave@pix.com",
   "nome": "Nickolas",
   "cidade": "BRASILIA",
   "valor": "44.50",
   "mensagem": "Pagamento"
 }</code></pre>
-        </div>
-        
-        <div class="example">
-          <div class="example-title"><i class="fas fa-code"></i> Exemplo de resposta</div>
-          <pre><code class="language-json">{
+  </div>
+
+  <div class="example">
+    <div class="example-title"><i class="fas fa-code"></i> Exemplo de resposta</div>
+    <pre><code class="language-json">{
   "status": "success",
   "message": "QR Code gerado com sucesso",
   "payload": "00020101021226360014br.gov.bcb.pix011416seuchave@pix.com5204000053039865445.005802BR598Nickolas608BRASILIA62130503Pagamento63047781",
   "qrcode": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMQAAADECAYAAADApo5rAAAA...",
   "timestamp": "2023-06-15T14:30:00Z"
 }</code></pre>
-        </div>
-        
-        <div class="note">
-          <div class="note-title"><i class="fas fa-lightbulb"></i> Como usar</div>
-          <ol>
-            <li>Faça uma requisição POST para o endpoint /api/pix com os dados do pagamento</li>
-            <li>A API retornará o payload (texto) e a imagem do QR Code em base64</li>
-            <li>Exiba a imagem no navegador com a tag &lt;img&gt; usando o valor de qrcode</li>
-            <li>Para pagamentos, o usuário pode escanear o QR Code com qualquer app de banco</li>
-          </ol>
-        </div>
-      </div>
+  </div>
+
+  <div class="note">
+    <div class="note-title"><i class="fas fa-lightbulb"></i> Como usar</div>
+    <ol>
+      <li>Faça uma requisição <strong>POST</strong> para o endpoint <code>/api/pix</code> com os dados do pagamento</li>
+      <li>A API retornará o <strong>payload</strong> (texto do BR Code) e a imagem do QR Code em <strong>base64</strong></li>
+      <li>Exiba a imagem no navegador com a tag <code>&lt;img src="..."&gt;</code> usando o valor de <code>qrcode</code></li>
+      <li>Para pagamentos, o usuário pode escanear o QR Code com qualquer app de banco</li>
+    </ol>
+  </div>
+</div>
     </section>
   </main>
 
