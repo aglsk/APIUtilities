@@ -1,26 +1,26 @@
 const qrcode = require('qrcode');
 
-function gerarPayloadPix({ chave, nome, cidade = 'BRASILIA', valor = '0.00', mensagem = '' }) {
-  const BRCode = [
+function montarPayload({ chave, nome, cidade, valor }) {
+  const payload = [
     '000201',
-    '010212',
-    `26360014br.gov.bcb.pix0114${chave.length}${chave}`,
+    '2642',
+    '0014br.gov.bcb.pix',
+    `01${chave.length.toString().padStart(2, '0')}${chave}`,
     '52040000',
     '5303986',
-    `54${valor.length < 2 ? '0' + valor.length : valor.length}${valor}`,
+    `54${valor.length}${valor}`,
     '5802BR',
     `59${nome.length}${nome}`,
     `60${cidade.length}${cidade}`,
-    mensagem ? `62${mensagem.length + 4}0503${mensagem}` : '',
+    '62180514TXuzc63bea2200', // Pode alterar esse txid se quiser
     '6304'
-  ];
+  ].join('');
 
-  const semCRC = BRCode.filter(l => l).join('');
-  const crc = CRC16(semCRC);
-  return `${semCRC}${crc}`;
+  const crc = calcularCRC16(payload);
+  return payload + crc;
 }
 
-function CRC16(str) {
+function calcularCRC16(str) {
   let crc = 0xFFFF;
   for (let i = 0; i < str.length; i++) {
     crc ^= str.charCodeAt(i) << 8;
@@ -32,20 +32,16 @@ function CRC16(str) {
 }
 
 module.exports = async (req, res) => {
-  const { chave, nome = 'PIX RECEBEDOR', cidade = 'BRASILIA', valor = '0.00', mensagem = '' } = req.query;
+  const { chave, nome, valor, cidade } = req.query;
 
-  if (!chave) {
-    return res.status(400).json({ error: 'Parâmetro "chave" é obrigatório' });
+  if (!chave || !nome || !valor || !cidade) {
+    return res.status(400).json({ error: 'chave, nome, valor e cidade são obrigatórios' });
   }
 
-  const payload = gerarPayloadPix({ chave, nome, cidade, valor, mensagem });
-
   try {
+    const payload = montarPayload({ chave, nome, valor, cidade });
     const qr = await qrcode.toDataURL(payload);
-    res.status(200).json({
-      payload,
-      qrcode: qr
-    });
+    res.status(200).json({ payload, qrcode: qr });
   } catch (err) {
     res.status(500).json({ error: 'Erro ao gerar QR Code', details: err.message });
   }
