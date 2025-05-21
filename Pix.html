@@ -1,97 +1,41 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Gerador de QR Code Pix</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-      background: #f1f1f1;
-    }
-    form {
-      background: white;
-      padding: 20px;
-      border-radius: 8px;
-      max-width: 400px;
-      margin: auto;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    input, button {
-      width: 100%;
-      padding: 10px;
-      margin-top: 10px;
-      font-size: 16px;
-    }
-    img {
-      margin-top: 20px;
-      width: 100%;
-    }
-    #payload {
-      word-break: break-all;
-      background: #eee;
-      padding: 10px;
-      margin-top: 10px;
-      font-size: 14px;
-      border-radius: 5px;
-    }
-  </style>
+  <title>PIX QR Code Generator</title>
 </head>
 <body>
-
-  <form id="pixForm">
-    <h2>Gerar QR Code Pix</h2>
-    <input type="text" id="chave" placeholder="Chave Pix (email, tel ou CPF)" required />
-    <input type="text" id="nome" placeholder="Nome do recebedor" required />
-    <input type="text" id="cidade" placeholder="Cidade (máx. 15 caracteres)" required />
-    <input type="number" step="0.01" id="valor" placeholder="Valor (ex: 10.00)" required />
-    <input type="text" id="mensagem" placeholder="Mensagem ou TXID (opcional)" />
-    <button type="submit">Gerar QR Code</button>
-    <div id="resultado"></div>
-  </form>
-
+  <h1>Gerar QR Code PIX</h1>
+  <input type="text" id="chave" placeholder="Chave Pix">
+  <input type="text" id="nome" placeholder="Nome do Recebedor">
+  <input type="text" id="cidade" placeholder="Cidade">
+  <input type="number" id="valor" placeholder="Valor (ex: 10.00)">
+  <button onclick="gerarQRCode()">Gerar QR</button>
+  <br><br>
+  <img id="qrcode" src="" style="width:200px">
+  <p id="payload"></p>
   <script>
-    const form = document.getElementById('pixForm');
-    const resultado = document.getElementById('resultado');
+    async function gerarQRCode() {
+      const chave = document.getElementById('chave').value;
+      const nome = document.getElementById('nome').value;
+      const cidade = document.getElementById('cidade').value;
+      const valor = document.getElementById('valor').value;
 
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-
-      const chave = document.getElementById('chave').value.trim();
-      const nome = document.getElementById('nome').value.trim();
-      const cidade = document.getElementById('cidade').value.trim();
-      const valor = document.getElementById('valor').value.trim();
-      const mensagem = document.getElementById('mensagem').value.trim();
-
-      resultado.innerHTML = 'Gerando...';
+      const url = `https://apiutilities.vercel.app/pixqrcode?chave=${encodeURIComponent(chave)}&nome=${encodeURIComponent(nome)}&cidade=${encodeURIComponent(cidade)}&valor=${valor}`;
 
       try {
-        const params = new URLSearchParams({
-          chave,
-          nome,
-          cidade,
-          valor,
-          mensagem
-        });
-
-        const res = await fetch(`https://apiutilities.vercel.app/pixqrcode?${params}`);
+        const res = await fetch(url);
         const data = await res.json();
 
-        if (data.error) {
-          resultado.innerHTML = `<p style="color:red;">Erro: ${data.error}</p>`;
-          return;
+        if (data.qrcode) {
+          document.getElementById('qrcode').src = data.qrcode;
+          document.getElementById('payload').innerText = data.payload;
+        } else {
+          alert('Erro: ' + data.error);
         }
-
-        resultado.innerHTML = `
-          <img src="${data.qrcode}" alt="QR Code Pix" />
-          <div id="payload"><strong>Payload:</strong><br>${data.payload}</div>
-        `;
       } catch (err) {
-        resultado.innerHTML = `<p style="color:red;">Erro ao chamar a API: ${err.message}</p>`;
+        alert('Erro ao chamar API: ' + err);
       }
-    });
+    }
   </script>
-
 </body>
 </html>
