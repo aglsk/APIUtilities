@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Gerador QR Code PIX</title>
+<style>
+  body { font-family: Arial, sans-serif; margin: 20px; }
+  label { display: block; margin-top: 10px; }
+  input { width: 300px; padding: 5px; }
+  button { margin-top: 15px; padding: 10px 20px; }
+  #qrcode img { margin-top: 20px; }
+</style>
+</head>
+<body>
+
+<h2>Gerador QR Code PIX</h2>
+
+<label>Chave PIX:
+  <input type="text" id="chave" placeholder="ex: seuchave@pix.com" />
+</label>
+
+<label>Nome:
+  <input type="text" id="nome" placeholder="ex: Nickolas" />
+</label>
+
+<label>Valor:
+  <input type="text" id="valor" placeholder="ex: 10.00" />
+</label>
+
+<label>Cidade:
+  <input type="text" id="cidade" placeholder="ex: Rio de Janeiro" />
+</label>
+
+<button onclick="gerarQRCode()">Gerar QR Code</button>
+
+<div id="qrcode"></div>
+
+<script>
+async function gerarQRCode() {
+  const chave = document.getElementById('chave').value.trim();
+  const nome = document.getElementById('nome').value.trim();
+  const valor = document.getElementById('valor').value.trim();
+  const cidade = document.getElementById('cidade').value.trim();
+
+  if (!chave || !nome || !valor || !cidade) {
+    alert('Preencha todos os campos');
+    return;
+  }
+
+  const url = `https://apiutilities.vercel.app/pixqrcode?chave=${encodeURIComponent(chave)}&nome=${encodeURIComponent(nome)}&valor=${encodeURIComponent(valor)}&cidade=${encodeURIComponent(cidade)}`;
+
+  try {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('Erro na API');
+
+    const data = await res.json();
+
+    if (data.qrcode) {
+      document.getElementById('qrcode').innerHTML = `<img src="${data.qrcode}" alt="QR Code PIX" />`;
+    } else {
+      document.getElementById('qrcode').innerHTML = 'Erro: Não foi possível gerar o QR Code.';
+    }
+  } catch (e) {
+    document.getElementById('qrcode').innerHTML = 'Erro ao chamar a API: ' + e.message;
+  }
+}
+</script>
+
+</body>
+</html>
