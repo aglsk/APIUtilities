@@ -1,71 +1,97 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Gerador QR Code PIX</title>
-<style>
-  body { font-family: Arial, sans-serif; margin: 20px; }
-  label { display: block; margin-top: 10px; }
-  input { width: 300px; padding: 5px; }
-  button { margin-top: 15px; padding: 10px 20px; }
-  #qrcode img { margin-top: 20px; }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gerador de QR Code Pix</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f1f1f1;
+    }
+    form {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      max-width: 400px;
+      margin: auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      font-size: 16px;
+    }
+    img {
+      margin-top: 20px;
+      width: 100%;
+    }
+    #payload {
+      word-break: break-all;
+      background: #eee;
+      padding: 10px;
+      margin-top: 10px;
+      font-size: 14px;
+      border-radius: 5px;
+    }
+  </style>
 </head>
 <body>
 
-<h2>Gerador QR Code PIX</h2>
+  <form id="pixForm">
+    <h2>Gerar QR Code Pix</h2>
+    <input type="text" id="chave" placeholder="Chave Pix (email, tel ou CPF)" required />
+    <input type="text" id="nome" placeholder="Nome do recebedor" required />
+    <input type="text" id="cidade" placeholder="Cidade (máx. 15 caracteres)" required />
+    <input type="number" step="0.01" id="valor" placeholder="Valor (ex: 10.00)" required />
+    <input type="text" id="mensagem" placeholder="Mensagem ou TXID (opcional)" />
+    <button type="submit">Gerar QR Code</button>
+    <div id="resultado"></div>
+  </form>
 
-<label>Chave PIX:
-  <input type="text" id="chave" placeholder="ex: seuchave@pix.com" />
-</label>
+  <script>
+    const form = document.getElementById('pixForm');
+    const resultado = document.getElementById('resultado');
 
-<label>Nome:
-  <input type="text" id="nome" placeholder="ex: Nickolas" />
-</label>
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
 
-<label>Valor:
-  <input type="text" id="valor" placeholder="ex: 10.00" />
-</label>
+      const chave = document.getElementById('chave').value.trim();
+      const nome = document.getElementById('nome').value.trim();
+      const cidade = document.getElementById('cidade').value.trim();
+      const valor = document.getElementById('valor').value.trim();
+      const mensagem = document.getElementById('mensagem').value.trim();
 
-<label>Cidade:
-  <input type="text" id="cidade" placeholder="ex: Rio de Janeiro" />
-</label>
+      resultado.innerHTML = 'Gerando...';
 
-<button onclick="gerarQRCode()">Gerar QR Code</button>
+      try {
+        const params = new URLSearchParams({
+          chave,
+          nome,
+          cidade,
+          valor,
+          mensagem
+        });
 
-<div id="qrcode"></div>
+        const res = await fetch(`https://apiutilities.vercel.app/pixqrcode?${params}`);
+        const data = await res.json();
 
-<script>
-async function gerarQRCode() {
-  const chave = document.getElementById('chave').value.trim();
-  const nome = document.getElementById('nome').value.trim();
-  const valor = document.getElementById('valor').value.trim();
-  const cidade = document.getElementById('cidade').value.trim();
+        if (data.error) {
+          resultado.innerHTML = `<p style="color:red;">Erro: ${data.error}</p>`;
+          return;
+        }
 
-  if (!chave || !nome || !valor || !cidade) {
-    alert('Preencha todos os campos');
-    return;
-  }
-
-  const url = `https://apiutilities.vercel.app/pixqrcode?chave=${encodeURIComponent(chave)}&nome=${encodeURIComponent(nome)}&valor=${encodeURIComponent(valor)}&cidade=${encodeURIComponent(cidade)}`;
-
-  try {
-    const res = await fetch(url);
-    if (!res.ok) throw new Error('Erro na API');
-
-    const data = await res.json();
-
-    if (data.qrcode) {
-      document.getElementById('qrcode').innerHTML = `<img src="${data.qrcode}" alt="QR Code PIX" />`;
-    } else {
-      document.getElementById('qrcode').innerHTML = 'Erro: Não foi possível gerar o QR Code.';
-    }
-  } catch (e) {
-    document.getElementById('qrcode').innerHTML = 'Erro ao chamar a API: ' + e.message;
-  }
-}
-</script>
+        resultado.innerHTML = `
+          <img src="${data.qrcode}" alt="QR Code Pix" />
+          <div id="payload"><strong>Payload:</strong><br>${data.payload}</div>
+        `;
+      } catch (err) {
+        resultado.innerHTML = `<p style="color:red;">Erro ao chamar a API: ${err.message}</p>`;
+      }
+    });
+  </script>
 
 </body>
 </html>
