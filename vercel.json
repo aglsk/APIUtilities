@@ -5,6 +5,7 @@
     { "src": "/gerar-senha", "dest": "/api/generate-password.js" },
     { "src": "/perfis", "dest": "/api/perfis.js" },
     { "src": "/pixqrcode", "dest": "/api/pixqrcode.js" },
-    { "src": "/cep", "dest": "/api/cep.js" }
+    { "src": "/cep", "dest": "/api/cep.js" },
+    { "src": "/nomein", "dest": "/identificador_genero/index.js" }
   ]
 }
