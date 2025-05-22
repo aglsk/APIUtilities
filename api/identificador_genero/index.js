@@ -1,50 +1,40 @@
-const express = require('express');
-const fs = require('fs');
-const app = express();
-const port = 3000;
+import { readFile } from 'fs/promises';
+import path from 'path';
 
 let nomesMasculinos = [];
 let nomesFemininos = [];
 
-// Função para carregar os nomes dos arquivos
-function carregarNomes() {
+async function carregarNomes() {
+  if (nomesMasculinos.length && nomesFemininos.length) return;
+
   try {
-    nomesMasculinos = fs.readFileSync('masculino.txt', 'utf-8')
-      .split('\n')
-      .map(n => n.trim().toLowerCase())
-      .filter(n => n.length > 0);
+    const basePath = path.resolve(process.cwd(), 'api');
+    
+    const masc = await readFile(path.join(basePath, 'masculino.txt'), 'utf8');
+    const fem = await readFile(path.join(basePath, 'feminino.txt'), 'utf8');
 
-    nomesFemininos = fs.readFileSync('feminino.txt', 'utf-8')
-      .split('\n')
-      .map(n => n.trim().toLowerCase())
-      .filter(n => n.length > 0);
-
-    console.log('Nomes carregados com sucesso.');
+    nomesMasculinos = masc.split('\n').map(n => n.trim().toLowerCase()).filter(Boolean);
+    nomesFemininos = fem.split('\n').map(n => n.trim().toLowerCase()).filter(Boolean);
   } catch (err) {
-    console.error('Erro ao carregar os arquivos:', err.message);
+    console.error('Erro ao carregar arquivos:', err.message);
   }
 }
 
-carregarNomes();
-
-app.get('/api/genero', (req, res) => {
+export default async function handler(req, res) {
   const nome = (req.query.nome || '').toLowerCase().trim();
+  await carregarNomes();
 
   if (!nome) {
     return res.status(400).json({ error: 'Nome é obrigatório' });
   }
 
   if (nomesMasculinos.includes(nome)) {
-    return res.json({ nome, genero: 'masculino' });
+    return res.status(200).json({ nome, genero: 'masculino' });
   }
 
   if (nomesFemininos.includes(nome)) {
-    return res.json({ nome, genero: 'feminino' });
+    return res.status(200).json({ nome, genero: 'feminino' });
   }
 
-  return res.json({ nome, genero: 'desconhecido' });
-});
-
-app.listen(port, () => {
-  console.log(`API rodando em http://localhost:${port}`);
-});
+  return res.status(200).json({ nome, genero: 'desconhecido' });
+}
