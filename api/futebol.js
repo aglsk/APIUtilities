@@ -1,3 +1,4 @@
+// pages/api/futebol/agenda.js
 import axios from 'axios';
 import cheerio from 'cheerio';
 
@@ -16,16 +17,20 @@ export default async function handler(req, res) {
 
       const local = $(el).find('.card-agenda__info__location').text().trim();
 
-      jogos.push({
-        dataHora,
-        timeA,
-        timeB,
-        local
-      });
+      // Ignora blocos sem dados essenciais
+      if (timeA && timeB && dataHora) {
+        jogos.push({
+          dataHora,
+          timeA,
+          timeB,
+          local: local || null
+        });
+      }
     });
 
     res.status(200).json({ jogos });
   } catch (error) {
-    res.status(500).json({ error: 'Erro ao buscar agenda' });
+    console.error('Erro na API futebol/agenda:', error.message);
+    res.status(500).json({ error: 'Erro ao buscar agenda de jogos' });
   }
 }
