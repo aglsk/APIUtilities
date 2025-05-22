@@ -1,36 +1,22 @@
-// pages/api/futebol/agenda.js
-import axios from 'axios';
-import cheerio from 'cheerio';
+// pages/api/classificacao.js
 
 export default async function handler(req, res) {
+  const leagueId = '4351'; // ID da Série A no TheSportsDB
+  const season = '2025';   // Temporada atual
+  const apiKey = '3';      // Chave de API gratuita para testes
+
+  const url = `https://www.thesportsdb.com/api/v1/json/${apiKey}/lookuptable.php?l=${leagueId}&s=${season}`;
+
   try {
-    const { data } = await axios.get('https://ge.globo.com/agenda/');
-    const $ = cheerio.load(data);
+    const response = await fetch(url);
+    const data = await response.json();
 
-    const jogos = [];
+    if (!data.table) {
+      return res.status(404).json({ error: 'Classificação não encontrada.' });
+    }
 
-    $('.card-agenda').each((i, el) => {
-      const dataHora = $(el).find('.card-agenda__info__date').text().trim();
-
-      const timeA = $(el).find('.team-name__content').eq(0).text().trim();
-      const timeB = $(el).find('.team-name__content').eq(1).text().trim();
-
-      const local = $(el).find('.card-agenda__info__location').text().trim();
-
-      // Ignora blocos sem dados essenciais
-      if (timeA && timeB && dataHora) {
-        jogos.push({
-          dataHora,
-          timeA,
-          timeB,
-          local: local || null
-        });
-      }
-    });
-
-    res.status(200).json({ jogos });
+    res.status(200).json(data.table);
   } catch (error) {
-    console.error('Erro na API futebol/agenda:', error.message);
-    res.status(500).json({ error: 'Erro ao buscar agenda de jogos' });
+    res.status(500).json({ error: 'Erro ao buscar dados da classificação.' });
   }
 }
