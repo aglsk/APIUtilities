@@ -4,7 +4,7 @@
     { "src": "/meu-ip", "dest": "/api/my-ip.js" },
     { "src": "/gerar-senha", "dest": "/api/generate-password.js" },
     { "src": "/netflix-profile", "dest": "/api/perfis.js" },
-    { "src": "/pixqrcode", "dest": "/api/pixqrcode.js" },
+    { "src": "/pix", "dest": "/api/pixqrcode.js" },
     { "src": "/cep", "dest": "/api/cep.js" },
     { "src": "/genero", "dest": "/api/identificador_genero/index.js" }
   ]
