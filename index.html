@@ -590,32 +590,44 @@
     </section>
 
     <section class="api-section">
-  <h2 class="section-title"><i class="fas fa-futbol"></i> Futebol - Partidas de Hoje</h2>
+  <h2 class="section-title"><i class="fas fa-futbol"></i> Futebol - Partidas Encerradas</h2>
   <div class="api-card">
-    <h3 class="api-title"><i class="fas fa-calendar-day"></i> Jogos de Futebol de Hoje</h3>
+    <h3 class="api-title"><i class="fas fa-calendar-check"></i> Jogos de Futebol Finalizados</h3>
     <div class="endpoint">
       <span class="method get">GET</span>
-      <span class="path">/futebol/hoje</span>
+      <span class="path">/futebol</span>
     </div>
-    <p>Retorna uma lista de jogos de futebol que estão programados para o dia atual, incluindo horários, times e status das partidas.</p>
+    <p>Retorna uma lista de partidas de futebol que já ocorreram, incluindo informações detalhadas como placar, equipes, data e local.</p>
 
     <div class="example">
       <div class="example-title"><i class="fas fa-code"></i> Exemplo de resposta</div>
       <pre><code>{
   "data": [
     {
-      "horario": "14:00",
-      "competicao": "Brasileirão Série A",
-      "casa": "Flamengo",
-      "fora": "Palmeiras",
-      "status": "Ao vivo"
+      "idEvent": "1032718",
+      "strEvent": "Flamengo vs Palmeiras",
+      "dateEvent": "2025-05-20",
+      "strTime": "19:00:00",
+      "strLeague": "Brasileirão Série A",
+      "strHomeTeam": "Flamengo",
+      "strAwayTeam": "Palmeiras",
+      "intHomeScore": "2",
+      "intAwayScore": "1",
+      "strVenue": "Maracanã",
+      "strStatus": "Match Finished"
     },
     {
-      "horario": "16:30",
-      "competicao": "Premier League",
-      "casa": "Manchester United",
-      "fora": "Chelsea",
-      "status": "Agendado"
+      "idEvent": "1032719",
+      "strEvent": "Manchester United vs Chelsea",
+      "dateEvent": "2025-05-21",
+      "strTime": "16:30:00",
+      "strLeague": "Premier League",
+      "strHomeTeam": "Manchester United",
+      "strAwayTeam": "Chelsea",
+      "intHomeScore": "1",
+      "intAwayScore": "1",
+      "strVenue": "Old Trafford",
+      "strStatus": "Match Finished"
     }
   ]
 }</code></pre>
@@ -631,39 +643,69 @@
       </thead>
       <tbody>
         <tr>
-          <td>horario</td>
+          <td>idEvent</td>
           <td>string</td>
-          <td>Horário da partida (formato 24h)</td>
+          <td>Identificador único da partida</td>
         </tr>
         <tr>
-          <td>competicao</td>
+          <td>strEvent</td>
           <td>string</td>
-          <td>Nome do campeonato</td>
+          <td>Descrição do evento (ex: Flamengo vs Palmeiras)</td>
         </tr>
         <tr>
-          <td>casa</td>
+          <td>dateEvent</td>
+          <td>string</td>
+          <td>Data da partida (formato YYYY-MM-DD)</td>
+        </tr>
+        <tr>
+          <td>strTime</td>
+          <td>string</td>
+          <td>Horário de início da partida (formato HH:MM:SS)</td>
+        </tr>
+        <tr>
+          <td>strLeague</td>
+          <td>string</td>
+          <td>Nome da liga ou campeonato</td>
+        </tr>
+        <tr>
+          <td>strHomeTeam</td>
           <td>string</td>
           <td>Nome do time mandante</td>
         </tr>
         <tr>
-          <td>fora</td>
+          <td>strAwayTeam</td>
           <td>string</td>
           <td>Nome do time visitante</td>
         </tr>
         <tr>
-          <td>status</td>
+          <td>intHomeScore</td>
           <td>string</td>
-          <td>Status do jogo (ex: Agendado, Ao vivo, Encerrado)</td>
+          <td>Gols do time mandante</td>
+        </tr>
+        <tr>
+          <td>intAwayScore</td>
+          <td>string</td>
+          <td>Gols do time visitante</td>
+        </tr>
+        <tr>
+          <td>strVenue</td>
+          <td>string</td>
+          <td>Estádio onde ocorreu a partida</td>
+        </tr>
+        <tr>
+          <td>strStatus</td>
+          <td>string</td>
+          <td>Status da partida (ex: Match Finished)</td>
         </tr>
       </tbody>
     </table>
 
     <div class="note">
       <div class="note-title"><i class="fas fa-info-circle"></i> Nota</div>
-      <p>Os dados são atualizados diariamente e representam apenas jogos do dia atual. Para consultar jogos de outra data, utilize um endpoint específico (em breve).</p>
+      <p>Os dados são atualizados diariamente e representam apenas jogos finalizados. Para consultar partidas futuras ou em andamento, utilize os endpoints apropriados fornecidos pela TheSportsDB.</p>
     </div>
   </div>
-    </section>
+</section>
 
   </main>
 
