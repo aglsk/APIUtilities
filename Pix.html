@@ -20,7 +20,7 @@
       const cidade = document.getElementById('cidade').value;
       const valor = document.getElementById('valor').value;
 
-      const url = `https://apiutilities.vercel.app/pixqrcode?chave=${encodeURIComponent(chave)}&nome=${encodeURIComponent(nome)}&cidade=${encodeURIComponent(cidade)}&valor=${valor}`;
+      const url = `https://apiutilities.vercel.app/pix?chave=${encodeURIComponent(chave)}&nome=${encodeURIComponent(nome)}&cidade=${encodeURIComponent(cidade)}&valor=${valor}`;
 
       try {
         const res = await fetch(url);
