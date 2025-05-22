@@ -542,6 +542,53 @@
   </div>
 </div>
     </section>
+
+    <section class="api-section">
+      <h2 class="section-title"><i class="fas fa-user-friends"></i> Identificação</h2>
+
+      <div class="api-card">
+        <h3 class="api-title"><i class="fas fa-venus-mars"></i> Identificador de Gênero</h3>
+        <div class="endpoint">
+          <span class="method get">GET</span>
+          <span class="path">/identificador-genero?nome=Lucas</span>
+        </div>
+        <p>Detecta o provável gênero associado a um nome fornecido. Usa um modelo estatístico baseado em nomes comuns.</p>
+
+        <table class="parameters">
+          <thead>
+            <tr>
+              <th>Parâmetro</th>
+              <th>Tipo</th>
+              <th>Descrição</th>
+              <th>Obrigatório</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>nome</td>
+              <td>string</td>
+              <td>Nome para o qual se deseja identificar o gênero</td>
+              <td class="required">Sim</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="example">
+          <div class="example-title"><i class="fas fa-code"></i> Exemplo de resposta</div>
+          <pre><code class="language-json">{
+  "nome": "Lucas",
+  "genero": "masculino",
+  "probabilidade": 0.99
+}</code></pre>
+        </div>
+
+        <div class="note">
+          <div class="note-title"><i class="fas fa-info-circle"></i> Observações</div>
+          <p>Este endpoint retorna apenas estimativas. Não é garantido que o gênero esteja correto para nomes unissex ou pouco comuns.</p>
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <footer>
