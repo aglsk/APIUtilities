@@ -4,7 +4,7 @@ export default async function handler(req, res) {
   // Detectar gênero via API Genderize
   let genero = 'unknown';
   try {
-    const response = await fetch(`https://api.genderize.io?name=${encodeURIComponent(nome)}`);
+    const response = await fetch(`https://apiutilities.vercel.app/genero?nome=${encodeURIComponent(nome)}`);
     const data = await response.json();
     genero = data.gender || 'unknown';
   } catch (e) {
@@ -35,9 +35,9 @@ export default async function handler(req, res) {
 
   // Escolher avatar com base no gênero
   let avatar = 'https://loodibee.com/wp-content/uploads/Netflix-avatar-12.png';
-  if (genero === 'male') {
+  if (genero === 'masculino') {
     avatar = avataresHomem[Math.floor(Math.random() * avataresHomem.length)];
-  } else if (genero === 'female') {
+  } else if (genero === 'feminino') {
     avatar = avataresMulher[Math.floor(Math.random() * avataresMulher.length)];
   }
 
