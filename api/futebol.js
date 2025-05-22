@@ -1,9 +1,26 @@
-// pages/api/classificacao.js
+// implementei um controle de taxs se não vai da pau no código.
+
+const rateLimit = new Map();
 
 export default async function handler(req, res) {
-  const leagueId = '4351'; // ID da Série A no TheSportsDB
+  const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+  const now = Date.now();
+  const windowTime = 60 * 1000;
+  const maxRequests = 10;
+
+  if (!rateLimit.has(ip)) rateLimit.set(ip, []);
+  const requests = rateLimit.get(ip).filter(ts => now - ts < windowTime);
+
+  if (requests.length >= maxRequests) {
+    return res.status(429).json({ error: 'Muitas requisições. Tente novamente mais tarde.' });
+  }
+
+  requests.push(now);
+  rateLimit.set(ip, requests);
+
+  const leagueId = '4351'; // Série A do Brasileirão
   const season = '2025';   // Temporada atual
-  const apiKey = '3';      // Chave de API gratuita para testes
+  const apiKey = '3';      // API key
 
   const url = `https://www.thesportsdb.com/api/v1/json/${apiKey}/lookuptable.php?l=${leagueId}&s=${season}`;
 
