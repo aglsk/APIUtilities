@@ -589,6 +589,82 @@
       </div>
     </section>
 
+    <section class="api-section">
+  <h2 class="section-title"><i class="fas fa-futbol"></i> Futebol - Partidas de Hoje</h2>
+  <div class="api-card">
+    <h3 class="api-title"><i class="fas fa-calendar-day"></i> Jogos de Futebol de Hoje</h3>
+    <div class="endpoint">
+      <span class="method get">GET</span>
+      <span class="path">/futebol/hoje</span>
+    </div>
+    <p>Retorna uma lista de jogos de futebol que estão programados para o dia atual, incluindo horários, times e status das partidas.</p>
+
+    <div class="example">
+      <div class="example-title"><i class="fas fa-code"></i> Exemplo de resposta</div>
+      <pre><code>{
+  "data": [
+    {
+      "horario": "14:00",
+      "competicao": "Brasileirão Série A",
+      "casa": "Flamengo",
+      "fora": "Palmeiras",
+      "status": "Ao vivo"
+    },
+    {
+      "horario": "16:30",
+      "competicao": "Premier League",
+      "casa": "Manchester United",
+      "fora": "Chelsea",
+      "status": "Agendado"
+    }
+  ]
+}</code></pre>
+    </div>
+
+    <table class="parameters">
+      <thead>
+        <tr>
+          <th>Campo</th>
+          <th>Tipo</th>
+          <th>Descrição</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>horario</td>
+          <td>string</td>
+          <td>Horário da partida (formato 24h)</td>
+        </tr>
+        <tr>
+          <td>competicao</td>
+          <td>string</td>
+          <td>Nome do campeonato</td>
+        </tr>
+        <tr>
+          <td>casa</td>
+          <td>string</td>
+          <td>Nome do time mandante</td>
+        </tr>
+        <tr>
+          <td>fora</td>
+          <td>string</td>
+          <td>Nome do time visitante</td>
+        </tr>
+        <tr>
+          <td>status</td>
+          <td>string</td>
+          <td>Status do jogo (ex: Agendado, Ao vivo, Encerrado)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="note">
+      <div class="note-title"><i class="fas fa-info-circle"></i> Nota</div>
+      <p>Os dados são atualizados diariamente e representam apenas jogos do dia atual. Para consultar jogos de outra data, utilize um endpoint específico (em breve).</p>
+    </div>
+  </div>
+    </section>
+
   </main>
 
   <footer>
