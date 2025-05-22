@@ -6,7 +6,7 @@ export default async function handler(req, res) {
   try {
     const response = await fetch(`https://apiutilities.vercel.app/genero?nome=${encodeURIComponent(nome)}`);
     const data = await response.json();
-    genero = data.gender || 'unknown';
+    genero = data.genero || 'unknown';
   } catch (e) {
     console.error('Erro ao detectar gênero:', e);
   }
