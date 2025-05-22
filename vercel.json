@@ -6,6 +6,6 @@
     { "src": "/perfis", "dest": "/api/perfis.js" },
     { "src": "/pixqrcode", "dest": "/api/pixqrcode.js" },
     { "src": "/cep", "dest": "/api/cep.js" },
-    { "src": "/nomein", "dest": "/identificador_genero/index.js" }
+    { "src": "/genero", "dest": "/api/identificador_genero/index.js" }
   ]
 }
