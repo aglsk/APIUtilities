@@ -707,11 +707,70 @@
   </div>
 </section>
 
+    <section class="api-section">
+  <h2 class="section-title"><i class="fas fa-exchange-alt"></i> Conversão de Moeda</h2>
+  <div class="api-card">
+    <h3 class="api-title"><i class="fas fa-dollar-sign"></i> Conversor de Moeda</h3>
+    <div class="endpoint">
+      <span class="method get">GET</span>
+      <span class="path">/conversor</span>
+    </div>
+    <p>Converte um valor de uma moeda para outra com base nas cotações em tempo real.</p>
+
+    <div class="example">
+      <div class="example-title"><i class="fas fa-code"></i> Exemplo de resposta</div>
+      <pre><code>{
+  "de": "USD",
+  "para": "BRL",
+  "valor_original": "10",
+  "cotacao": 5.02,
+  "valor_convertido": "50.20"
+}</code></pre>
+    </div>
+
+    <table class="parameters">
+      <thead>
+        <tr>
+          <th>Parâmetro</th>
+          <th>Tipo</th>
+          <th>Obrigatório</th>
+          <th>Descrição</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>de</td>
+          <td>string</td>
+          <td>Sim</td>
+          <td>Moeda de origem (ex: <code>USD</code>, <code>BRL</code>, <code>EUR</code>)</td>
+        </tr>
+        <tr>
+          <td>para</td>
+          <td>string</td>
+          <td>Sim</td>
+          <td>Moeda de destino (ex: <code>BRL</code>, <code>USD</code>)</td>
+        </tr>
+        <tr>
+          <td>valor</td>
+          <td>string ou número</td>
+          <td>Sim</td>
+          <td>Valor numérico a ser convertido</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="note">
+      <div class="note-title"><i class="fas fa-info-circle"></i> Nota</div>
+      <p>Limite de <strong>10 requisições por minuto</strong> por IP. Os dados são baseados na cotação atual extraída do site do Banco Central.</p>
+    </div>
+  </div>
+    </section>
+
   </main>
 
   <footer>
     <div class="container footer-content">
-      <p>Desenvolvido por <strong>Nickolas</strong></p>
+      <p>Desenvolvido por <strong>AGL SK</strong></p>
       <div class="social-links">
         <a href="https://github.com/aglsk" aria-label="GitHub"><i class="fab fa-github"></i></a>
         <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
