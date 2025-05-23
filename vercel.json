@@ -7,6 +7,7 @@
     { "src": "/pix", "dest": "/api/pixqrcode.js" },
     { "src": "/cep", "dest": "/api/cep.js" },
     { "src": "/genero", "dest": "/api/identificador_genero/index.js" },
-    { "src": "/futebol", "dest": "/api/futebol.js" }
+    { "src": "/futebol", "dest": "/api/futebol.js" },
+    { "src": "/conversor", "dest": "/api/conversor.js" }
   ]
 }
