@@ -4,7 +4,7 @@ export default async function handler(req, res) {
   const { de, para, valor } = req.query;
 
   if (!de || !para || !valor || isNaN(valor)) {
-    return res.status(400).json({ erro: 'Parâmetros inválidos. Use: /conversor?de=USD&para=BRL&valor=10' });
+    return res.status(400).json({ erro: 'Parâmetros inválidos. Use: /api/conversor?de=USD&para=BRL&valor=10' });
   }
 
   try {
