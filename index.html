@@ -455,7 +455,7 @@
 
   <div class="endpoint">
     <span class="method post">POST</span>
-    <span class="path">/pix</span>
+    <span class="path">/pix?chave=seuchave@pix.com&nome=SEU_NOME&valor=5.00&mensagem=Pagamento</span>
   </div>
 
   <p>Gera um QR Code PIX com payload e imagem em base64 para pagamentos instantâneos.</p>
@@ -534,7 +534,7 @@
   <div class="note">
     <div class="note-title"><i class="fas fa-lightbulb"></i> Como usar</div>
     <ol>
-      <li>Faça uma requisição <strong>POST</strong> para o endpoint <code>/api/pix</code> com os dados do pagamento</li>
+      <li>Faça uma requisição <strong>POST</strong> para o endpoint <code>/pix</code> com os dados do pagamento</li>
       <li>A API retornará o <strong>payload</strong> (texto do BR Code) e a imagem do QR Code em <strong>base64</strong></li>
       <li>Exiba a imagem no navegador com a tag <code>&lt;img src="..."&gt;</code> usando o valor de <code>qrcode</code></li>
       <li>Para pagamentos, o usuário pode escanear o QR Code com qualquer app de banco</li>
