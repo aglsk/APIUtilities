@@ -1,7 +1,7 @@
-import allowCors from '../lib/cors.js';
+import allowCors from './cors.js';
 
-function handler(req, res) {
-  res.status(200).json({ mensagem: 'Hello com CORS' });
+async function handler(req, res) {
+  res.status(200).json({ mensagem: 'CORS funcionando!' });
 }
 
 export default allowCors(handler);
