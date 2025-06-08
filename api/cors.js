@@ -5,10 +5,10 @@ export default function allowCors(handler) {
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
     if (req.method === 'OPTIONS') {
-      res.status(200).end();
+      res.status(200).end(); // Pré-voo CORS
       return;
     }
 
-    return handler(req, res);
+    return handler(req, res); // Continua pra função real
   };
 }
