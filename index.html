@@ -766,6 +766,70 @@
   </div>
     </section>
 
+<section class="api-section">
+  <h2 class="section-title"><i class="fas fa-shield-alt"></i> Proxy CORS</h2>
+  <div class="api-card">
+    <h3 class="api-title"><i class="fas fa-exchange-alt"></i> CORS Proxy</h3>
+    <div class="endpoint">
+      <span class="method get">GET</span>
+      <span class="path">/proxy?url=https://site.com/endpoint</span>
+    </div>
+    <p>
+      Esta API serve como um proxy para contornar bloqueios de <strong>CORS (Cross-Origin Resource Sharing)</strong>. 
+      Ela permite que você faça requisições para outros sites (APIs externas) que normalmente estariam bloqueadas no navegador por segurança.
+    </p>
+
+    <p>
+      É útil para frontend que precisa acessar uma API que <strong>não envia os cabeçalhos CORS corretos</strong>. O servidor da nossa API adiciona automaticamente os cabeçalhos:
+    </p>
+
+    <pre><code>
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Methods: GET
+    </code></pre>
+
+    <div class="example">
+      <div class="example-title"><i class="fas fa-code"></i> Exemplo de uso</div>
+      <pre><code>
+GET /proxy?url=https://jsonplaceholder.typicode.com/posts/1
+      </code></pre>
+      <p>Resposta (redirecionada e com CORS liberado):</p>
+      <pre><code>{
+  "userId": 1,
+  "id": 1,
+  "title": "sunt aut facere...",
+  "body": "quia et suscipit..."
+}</code></pre>
+    </div>
+
+    <table class="parameters">
+      <thead>
+        <tr>
+          <th>Parâmetro</th>
+          <th>Tipo</th>
+          <th>Obrigatório</th>
+          <th>Descrição</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>url</td>
+          <td>string</td>
+          <td>Sim</td>
+          <td>URL completa do site ou API de destino. Deve começar com <code>http://</code> ou <code>https://</code></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="note">
+      <div class="note-title"><i class="fas fa-info-circle"></i> Nota</div>
+      <p>
+        Essa API não executa JavaScript dos sites de destino, apenas retorna o conteúdo bruto (HTML, JSON, etc). Se o site de destino precisa de execução de scripts para gerar conteúdo, isso não será refletido na resposta.
+      </p>
+    </div>
+  </div>
+</section>
+    
   </main>
 
   <footer>
