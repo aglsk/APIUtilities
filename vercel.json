@@ -14,7 +14,7 @@
     { "src": "/genero", "dest": "/api/identificador_genero/index.js" },
     { "src": "/futebol", "dest": "/api/futebol.js" },
     { "src": "/conversor", "dest": "/api/conversor.js" },
-    { "src": "/api/(.*)", "dest": "/api/cors.js" }
+    { "src": "/api/(.*)", "dest": "/api/cors.js" },
     { "handle": "filesystem" }
   ]
 }
