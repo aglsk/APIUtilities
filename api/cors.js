@@ -1,26 +1,25 @@
-export default async function handler(req, res) {
-  const targetUrl = req.query.url;
+// proxy.js (Node.js + Express)
+const express = require('express');
+const cors = require('cors');
+const fetch = require('node-fetch');
+const app = express();
 
-  if (!targetUrl) {
-    res.status(400).json({ error: 'URL obrigatória (use ?url=https://...)' });
-    return;
-  }
+app.use(cors());
+
+app.get('/proxy', async (req, res) => {
+  const url = req.query.url;
+  if (!url) return res.status(400).send('Missing url param');
 
   try {
-    const response = await fetch(targetUrl, {
-      headers: {
-        'User-Agent': 'Mozilla/5.0' // previne bloqueios simples
-      }
-    });
+    const response = await fetch(url);
+    const body = await response.buffer();
 
-    const data = await response.text(); // ou .json() se quiser forçar JSON
-
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET');
-    res.setHeader('Content-Type', response.headers.get('content-type') || 'text/plain');
-
-    res.status(response.status).send(data);
+    // repassa o content-type original
+    res.set('Content-Type', response.headers.get('content-type'));
+    res.send(body);
   } catch (err) {
-    res.status(500).json({ error: 'Erro ao buscar URL', detalhe: err.message });
+    res.status(500).send('Error fetching URL');
   }
-}
+});
+
+app.listen(3000, () => console.log('Proxy running on port 3000'));
